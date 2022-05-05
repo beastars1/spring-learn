@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="user" class="io.github.beastars1.ioc_container.entity.User">
+        <property name="name" value="Jack"/>
+        <property name="age" value="12"/>
+    </bean>
+
+    <bean id="son" class="io.github.beastars1.ioc_container.entity.Son" parent="user" primary="true">
+        <property name="address" value="China"/>
+    </bean>
+
+    <bean id="objectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName" value="user"/>
+    </bean>
+</beans>
