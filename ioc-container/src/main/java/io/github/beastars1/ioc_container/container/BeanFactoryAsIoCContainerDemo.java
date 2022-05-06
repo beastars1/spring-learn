@@ -2,11 +2,9 @@ package io.github.beastars1.ioc_container.container;
 
 import io.github.beastars1.ioc_container.entity.User;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 

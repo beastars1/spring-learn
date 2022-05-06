@@ -6,7 +6,6 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -44,7 +43,7 @@ public class AnnotationApplicationContextAsIoCContainerDemo {
         }
     }
 
-    @Component
+//    @Component
     static class TestFactoryBean implements FactoryBean<Test> {
         @Override
         public Test getObject() throws Exception {
