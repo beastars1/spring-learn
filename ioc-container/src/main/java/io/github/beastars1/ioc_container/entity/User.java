@@ -1,8 +1,18 @@
 package io.github.beastars1.ioc_container.entity;
 
+import org.springframework.context.annotation.Bean;
+
 public class User {
     private String name;
     private int age;
+
+    @Bean
+    public static User createUser() {
+        User user = new User();
+        user.setName("Tony");
+        user.setAge(20);
+        return user;
+    }
 
     public String getName() {
         return name;

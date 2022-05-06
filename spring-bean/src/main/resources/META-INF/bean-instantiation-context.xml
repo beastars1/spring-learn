@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 静态工厂方法 -->
+    <bean id="userByStaticMethod" class="io.github.beastars1.ioc_container.entity.User" factory-method="createUser"/>
+
+    <!-- Bean工厂方法 -->
+    <bean id="userByFactoryMethod" factory-bean="userFactory" factory-method="create"/>
+    <bean id="userFactory" class="io.github.beastars1.bean.factory.DefaultUserFactory"/>
+
+    <!-- FactoryBean方法 -->
+    <bean id="userByFactoryBean" class="io.github.beastars1.bean.factory.UserFactoryBean"/>
+</beans>

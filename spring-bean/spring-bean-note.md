@@ -19,7 +19,7 @@
    ```
    可以通过 user 和 user1 获取 Bean。
 
-## BeanDefinition
+## Bean
 BeanDefinition 是 Spring 中定义 Bean 的配置元信息接口，包含：
 
 - Bean 的类名
@@ -61,7 +61,9 @@ BeanDefinition 是 Spring 中定义 Bean 的配置元信息接口，包含：
 
 BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应的 Bean 容器中才行。
 
-### 2. 注册 BeanDefinition
+### 2. 注册 Bean
+
+将 BeanDefinition 注册为 Bean。
 
 1. 通过 xml 注册
 
@@ -74,13 +76,13 @@ BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应
 
 2. 通过注解注册
 
-   @Bean：只能用于方法和注解上
+   @Bean：只能用于方法和注解上，使用 @Bean 注册 Bean，默认是单例，可以额外添加 @Scope 来指定作用域
 
    @Component：只能用于类上
 
    @Import：引入要导入的类
 
-3. 手动进行注册
+5. 手动进行注册
 
    1. 自定义 BeanName 注册
 
@@ -105,6 +107,7 @@ BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应
       ```
 
    3. 手动注册
+   也会注册指定的类内部的 Bean 
 
       ```java
       AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
@@ -112,4 +115,82 @@ BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应
       applicationContext.register(AnnotationBeanDefinitionDemo.class);
       ```
 
-      
+   5. 注册外部单例 Bean
+
+      如 SingletonBeanRegisterDemo
+
+      ```java
+      beanFactory.registerSingleton("userFactory", userFactory)
+      ```
+
+### 3. 实例化 Bean
+
+1. 默认通过构造器实现
+
+2. 通过静态工厂方法实现
+
+   xml 中添加 factory-method，指向 User.createUser() 方法。
+
+   ```xml
+   <bean id="userByStaticMethod" class="io.github.beastars1.ioc_container.entity.User" factory-method="createUser"/>
+   ```
+
+   或者直接在静态方法上添加 @Bean，使用 applicationContext.register(User.class) 方法加入 Bean 容器中。
+
+3. 通过 Bean 工厂方法实现
+
+   xml 中添加 factory-bean 和 factory-method，factory-bean 指向工厂实现类，factory-method 指向工厂实例化方法。
+
+   或者直接在静态方法上添加 @Bean
+
+   ```xml
+   <bean id="userByFactoryMethod" factory-bean="userFactory" factory-method="create"/>
+   <bean id="userFactory" class="io.github.beastars1.bean.factory.DefaultUserFactory"/>
+   ```
+
+   或者直接在 UserFactory 的 create() 方法上添加 @Bean，使用 applicationContext.register(DefaultUserFactory.class) 方法加入 Bean 容器中。
+
+4. 通过 FactoryBean 实现
+
+   创建一个类实现 `FactoryBean<User>` 方法，将创建的类加入到 Bean 容器中。
+
+   getObject() 就是生成 Bean 的方法；
+
+   getObjectType() 是 Bean 的类型；
+
+   isSingleton() 是每次获取 Bean 时是否是单例。
+
+5. 通过 spi 机制加载
+
+   将接口实现类的全限定名配置在文件中，并由 ServerLoader 读取配置文件，加载实现类。如 `SPIBeanInstantiationDemo`。
+
+### 4. Bean 的初始化
+
+#### 1. 初始化处理
+
+Bean 在 Spring 加载上下文进行初始化时，先执行以下步骤。
+
+1. @PostConstruct 注解
+2. @Bean 中指定 initMethod / xml 指定 init-method
+3. Bean 实现 InitializingBean 接口中的 afterPropertiesSet() 方法
+
+三种方法的执行顺序是 1>3>2。
+
+#### 2. 延迟初始化
+
+Bean 是在 Spring 加载的时候初始化的，也就是在 AbstractApplicationContext.refresh() 时进行加载的，但是这时加载只会加载单例并且不延迟初始化的 Bean。
+
+非延迟初始化的 Bean 会在加载上下文时调用初始化方法进行加载，延迟初始化的 Bean 会在真正调用时才进行初始化。
+
+1. 在 Bean 上添加 @Lazy 注解；
+2. xml 中添加 `<bean lazy-init="true"/>`。
+
+### 5. 销毁 Bean
+
+Bean 在 Spring 关闭上下文前，先执行以下步骤。
+
+1. @PreDestroy 注解
+2. @Bean 中指定 destroyMethod / xml 指定 destroy-method
+3. Bean 实现 DisposableBean 接口中的 destroy() 方法
+
+三种方法的执行顺序是 1>3>2。
