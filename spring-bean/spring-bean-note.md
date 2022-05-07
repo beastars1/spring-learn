@@ -76,11 +76,19 @@ BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应
 
 2. 通过注解注册
 
-   @Bean：只能用于方法和注解上，使用 @Bean 注册 Bean，默认是单例，可以额外添加 @Scope 来指定作用域
+   - @Bean：只能用于方法和注解上
+   
+     > 默认 BeanName 是方法名，类型是方法返回值，默认是单例，可以额外添加 @Scope 来指定作用域
+     > 
+     > 多个同类型 Bean，可以使用 @Primary 指定主 Bean
 
-   @Component：只能用于类上
+   - @Component：只能用于类上
+   
+     > 默认 BeanName 是类名，默认是单例，可以额外添加 @Scope 来指定作用域
+     >
+     > 派生类中 @Repository、@Service、@Controller 默认都是单例
 
-   @Import：引入要导入的类
+   - @Import：引入要导入的类
 
 5. 手动进行注册
 

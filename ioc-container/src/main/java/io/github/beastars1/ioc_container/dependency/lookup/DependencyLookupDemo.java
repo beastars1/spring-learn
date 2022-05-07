@@ -67,6 +67,8 @@ public class DependencyLookupDemo {
             Map<String, Object> map = listableBeanFactory.getBeansWithAnnotation(Primary.class);
             System.out.println("根据注解查找被注解的bean:");
             map.forEach((k, v) -> System.out.println(k + " >> " + v));
+            Primary primary = listableBeanFactory.findAnnotationOnBean("user", Primary.class);
+            System.out.println(primary);
         }
     }
 }
