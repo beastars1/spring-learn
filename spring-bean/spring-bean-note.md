@@ -132,6 +132,8 @@ BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应
       ```java
       beanFactory.registerSingleton("userFactory", userFactory)
       ```
+        
+      外部单体对象作为 Bean，可以进行依赖查找和依赖注入，但是不会被 Spring 管理生命周期，也不能配置元信息。是处于容器外的一个对象。
 
 ### 3. 实例化 Bean
 
