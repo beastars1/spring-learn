@@ -81,6 +81,8 @@ BeanDefinition 构建之后还获取不到 Bean，还需要将其注册到对应
      > 默认 BeanName 是方法名，类型是方法返回值，默认是单例，可以额外添加 @Scope 来指定作用域
      > 
      > 多个同类型 Bean，可以使用 @Primary 指定主 Bean
+     > 
+     > @Bean 使用在静态方法上，会优先注册
 
    - @Component：只能用于类上
    

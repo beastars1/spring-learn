@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 复用 -->
+    <import resource="dependency-lookup-context.xml"/>
+
+    <!-- 手动通过setter方法注入 -->
+    <bean class="io.github.beastars1.dependency.injection.UserHolder">
+        <property name="user" ref="son"/> <!-- 通过setter方法注入，name="user"的user是user字段的setter方法去掉set后的名字 -->
+    </bean>
+</beans>
